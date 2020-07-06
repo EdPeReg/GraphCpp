@@ -7,7 +7,7 @@ using namespace std;
 
 int main() {
 	bool weighted = false, directed = false;
-	Graph graph;
+	Graph<string> graph;
 	string origen, destino, option;
 
 	directed = true;

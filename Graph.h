@@ -32,11 +32,12 @@ class Edge {
 		int getWeight() const;
 };
 
+template<class T>
 class Graph {
 	private:
 		bool weighted, directed;
 		int totalPathWeight;
-		std::map<std::string, std::vector<Edge *>> adjacencyList;
+		std::map<T, std::vector<Edge *>> adjacencyList;
 	public:
 		Graph();
 
@@ -57,8 +58,8 @@ class Graph {
 		bool getWeighted() const;
 		bool getDirected() const;
 
-		void insertEdge(const std::string &source, const std::string &destination, int weight = 0);
-		std::vector<std::string> dijkstra(const std::string &source, const std::string &destination);
+		void insertEdge(const T &source, const T &destination, int weight = 0);
+		std::vector<std::string> dijkstra(const T &source, const T &destination);
 		void toString() const;
 
 		virtual ~Graph();
@@ -79,16 +80,16 @@ Node* Edge::getTarget() const { return target; }
 int Edge::getWeight() const { return weight; }
 
 /************ Graph implementation. ************/
-Graph::Graph() {  }
+template<class T> Graph<T>::Graph() {  }
 
-void Graph::setWeighted(bool w) { weighted = w; }
-void Graph::setDirected(bool d) { directed = d; }
-void Graph::setTotalPathWeight(int tpw) { totalPathWeight = tpw; }
-bool Graph::getWeighted() const { return weighted;  }
-bool Graph::getDirected() const { return directed;  }
-int Graph::getTotalPathWeight() const { return totalPathWeight; }
+template<class T> void Graph<T>::setWeighted(bool w) { weighted = w; }
+template<class T> void Graph<T>::setDirected(bool d) { directed = d; }
+template<class T> void Graph<T>::setTotalPathWeight(int tpw) { totalPathWeight = tpw; }
+template<class T> bool Graph<T>::getWeighted() const { return weighted;  }
+template<class T> bool Graph<T>::getDirected() const { return directed;  }
+template<class T> int Graph<T>::getTotalPathWeight() const { return totalPathWeight; }
 
-void Graph::insertEdge(const std::string &source, const std::string &target, int weight) {
+template<class T> void Graph<T>::insertEdge(const T &source, const T &target, int weight) {
 	Node* t = new Node(target);
 	Edge *edgeTarget = new Edge(t, weight);
 
@@ -108,10 +109,10 @@ void Graph::insertEdge(const std::string &source, const std::string &target, int
 }
 
 // BASED ON WIKIPEDIA PSEUDOCODE.
-std::vector<std::string> Graph::dijkstra(const std::string &source, const std::string &destination) {
-	std::map<std::string, int> dist;
-	std::map<std::string, std::string> prev;
-	std::set<std::string> nodes;
+template<class T> std::vector<std::string> Graph<T>::dijkstra(const T &source, const T &destination) {
+	std::map<T, int> dist;
+	std::map<T, std::string> prev;
+	std::set<T> nodes;
 
 	std::map<std::string, std::vector<Edge *>>::iterator git;
 
@@ -177,7 +178,7 @@ std::vector<std::string> Graph::dijkstra(const std::string &source, const std::s
 	return path;
 }
 
-void Graph::toString() const {
+template<class T> void Graph<T>::toString() const {
 	std::map< std::string, std::vector<Edge *> >::const_iterator it;
 	std::vector<Edge *>::const_iterator eit;
 	for(it = adjacencyList.begin(); it != adjacencyList.end(); it++) {
@@ -198,7 +199,7 @@ void Graph::toString() const {
 	}
 }
 
-Graph::~Graph() {
+template<class T> Graph<T>::~Graph() {
 	std::map< std::string, std::vector<Edge *> >::iterator it;
 	std::vector<Edge *>::iterator eit;
 	for(it = adjacencyList.begin(); it != adjacencyList.end(); it++) {
